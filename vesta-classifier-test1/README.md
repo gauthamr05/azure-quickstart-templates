@@ -1,9 +1,9 @@
 # Simple deployment of a VM Scale Set of Linux VMs behind a load balancer with NAT rules
 
-<a href="https%3A%2F%2Fportal.azure.com%2F%23create%2FMicrosoft.Template%2Furi%2Fhttps%3A%2F%2Fraw.githubusercontent.com%2Fgauthamr05%2Fazure-quickstart-templates%2Fvesta%2Fvesta-classifier-test1%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fgauthamr05%2Fazure-quickstart-templates%2Fvesta%2Fvesta-classifier-test1%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<a href="http%3A%2F%2Farmviz.io%2F%23%2F%3Fload%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgauthamr05%2Fazure-quickstart-templates%2Fvesta%2Fvesta-classifier-test1%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fgauthamr05%2Fazure-quickstart-templates%2Fvesta%2Fvesta-classifier-test1%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
