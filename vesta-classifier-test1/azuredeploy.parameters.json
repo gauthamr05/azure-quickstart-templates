@@ -3,22 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vmSku": {
-      "value": "Standard_A1"
+      "value": "Standard_F2s"
     },
     "ubuntuOSVersion": {
-      "value": "15.10"
+      "value": "14.04.4-LTS"
     },
     "vmssName": {
-      "value": "GEN-UNIQUE-32"
+      "value": "Classifier-test-SS"
     },
     "instanceCount": {
-      "value": 5
+      "value": 3
     },
     "adminUsername": {
       "value": "ubuntu"
     },
     "adminPassword": {
-      "value": "GEN-PASSWORD"
+      "value": "Im@g3Cl@ss!f!3r"
     }
   }
 }
