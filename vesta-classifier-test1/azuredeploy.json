@@ -21,6 +21,7 @@
     },
     "vmssName":{
       "type":"string",
+      "defaultValue": "Classifier-test-SS",
       "metadata":{
         "description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
@@ -28,6 +29,7 @@
     },
     "instanceCount": {
       "type": "int",
+      "defaultValue": 2,
       "metadata": {
         "description": "Number of VM instances (100 or less)."
       },
@@ -35,12 +37,14 @@
     },
     "adminUsername": {
       "type": "string",
+      "defaultValue": "ubuntu",
       "metadata": {
         "description": "Admin username on all VMs."
       }
     },
     "adminPassword": {
       "type": "securestring",
+      "defaultValue": "Im@g3Cl@ss!f!3r",
       "metadata": {
         "description": "Admin password on all VMs."
       }
