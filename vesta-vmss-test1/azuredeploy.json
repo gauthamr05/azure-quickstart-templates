@@ -21,7 +21,6 @@
     },
     "vmssName":{
       "type":"string",
-      "value": "Classifier-test-SS",
       "metadata":{
         "description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
@@ -29,7 +28,6 @@
     },
     "instanceCount": {
       "type": "int",
-      "value": 2,
       "metadata": {
         "description": "Number of VM instances (100 or less)."
       },
@@ -37,14 +35,12 @@
     },
     "adminUsername": {
       "type": "string",
-      "value": "ubuntu",
       "metadata": {
         "description": "Admin username on all VMs."
       }
     },
     "adminPassword": {
       "type": "securestring",
-      "value": "Im@g3Cl@ss!f!3r",
       "metadata": {
         "description": "Admin password on all VMs."
       }
@@ -63,7 +59,7 @@
     "vhdContainerName": "[concat(variables('namingInfix'), 'vhd')]",
     "osDiskName": "[concat(variables('namingInfix'), 'osdisk')]",
     "addressPrefix": "10.0.0.0/16",
-    "subnetPrefix": "10.0.0.0/24",
+    "subnetPrefix": "10.6.0.0/24",
     "virtualNetworkName": "VestaPhotomatch-prod-westus2-rg-vnet",
     "publicIPAddressName": "[concat(variables('namingInfix'), 'pip')]",
     "subnetName": "[concat(variables('namingInfix'), 'subnet')]",
