@@ -1,0 +1,45 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customVmName": {
+      "value": "classifier-test1"
+    },
+    "userImageStorageAccountName": {
+      "value": "vestaphotomatchprodwe851"
+    },
+    "userImageStorageAccountResourceGroupName": {
+      "value": "VestaPhotomatch-prod-westus2-rg"
+    },
+    "adminUsername": {
+      "value": "ubuntu"
+    },
+    "adminPassword": {
+      "value": "Im@g3Cl@ss!f!3r"
+    },
+    "osDiskVhdUri": {
+      "value": "https://vestaphotomatchprodwe851.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/classifier-test-VHD-osDisk.05493c13-be2a-4426-9f40-abbf91fba6f6.vhd"
+    },
+    "dnsLabelPrefix": {
+      "value": "customklayip2"
+    },
+    "osType": {
+      "value": "Linux"
+    },
+    "vmSize": {
+      "value": "Standard_F2s"
+    },
+    "newOrExistingVnet": {
+      "value": "existing"
+    },
+    "newOrExistingVnetName": {
+      "value": "VestaPhotomatch-prod-westus2-rg-vnet/default"
+    },
+    "newOrExistingSubnetName": {
+      "value": "default"
+    },
+    "existingVnetResourceGroupName": {
+      "value": "VestaPhotomatch-prod-westus2-rg"
+    }
+  }
+}
