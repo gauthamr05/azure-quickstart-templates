@@ -4,7 +4,7 @@
   "parameters": {
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_F2s",
+      "defaultValue": "Standard_F2",
       "metadata": {
         "description": "Size of VMs in the VM Scale Set."
       }
@@ -54,7 +54,7 @@
     "storageAccountType": "Standard_LRS",
     "namingInfix": "[toLower(substring(parameters('vmssName'), 0, 15))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
-    "newStorageAccountSuffix": "[concat(variables('namingInfix'), '-sa')]",
+    "newStorageAccountSuffix": "['classifer', 'sa')]",
     "uniqueStringArray": [
       "[concat(variables('newStorageAccountSuffix'), '0')]",
       "[concat(variables('newStorageAccountSuffix'), '1')]"
