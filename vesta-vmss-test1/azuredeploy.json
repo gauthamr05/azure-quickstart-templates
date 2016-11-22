@@ -54,7 +54,7 @@
     "storageAccountType": "Standard_LRS",
     "namingInfix": "[toLower(substring(parameters('vmssName'), 0, 15))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
-    "newStorageAccountSuffix": "[toLower('classiferSa')]",
+    "newStorageAccountSuffix": "classiferSa",
     "uniqueStringArray": [
       "[concat(variables('newStorageAccountSuffix'), '0')]",
       "[concat(variables('newStorageAccountSuffix'), '1')]"
@@ -113,7 +113,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('uniqueStringArray')[copyIndex()]]",
+      "name": "[toLower(variables('uniqueStringArray')[copyIndex()])]",
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('storageApiVersion')]",
       "copy": {
