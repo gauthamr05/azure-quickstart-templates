@@ -202,8 +202,7 @@
                 "uri": "https://vestaphotomatchprodwe851.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/classifier-test-VHD-osDisk.05493c13-be2a-4426-9f40-abbf91fba6f6.vhd"
               },
               "osType": "Linux"
-            },
-            "imageReference": "[variables('imageReference')]"
+            }
           },
           "osProfile": {
             "computerNamePrefix": "[variables('namingInfix')]",
