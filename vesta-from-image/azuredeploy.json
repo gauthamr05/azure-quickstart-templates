@@ -4,48 +4,49 @@
   "parameters": {
     "customVmName": {
       "type": "string",
+      "defaultValue": "classifier-test1",
       "metadata": {
         "description": "This is the name of the your VM"
       }
     },
     "userImageStorageAccountName": {
       "type": "string",
+      "defaultValue": "vestaphotomatchprodwe851",
       "metadata": {
         "description": "This is the name of the your storage account"
       }
     },
     "userImageStorageAccountResourceGroupName": {
       "type": "string",
+      "defaultValue": "VestaPhotomatch-prod-westus2-rg",
       "metadata": {
         "description": "Resource group of the existing storage account"
       }
     },
     "osDiskVhdUri": {
       "type": "string",
+      "defaultValue": "https://vestaphotomatchprodwe851.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/classifier-test-VHD-osDisk.05493c13-be2a-4426-9f40-abbf91fba6f6.vhd",
       "metadata": {
         "description": "Uri of the your user image"
       }
     },
-    "dnsLabelPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
-      }
-    },
     "adminUserName": {
       "type": "string",
+      "defaultValue": "ubuntu",
       "metadata": {
         "description": "User Name for the Virtual Machine"
       }
     },
     "adminPassword": {
       "type": "securestring",
+      "defaultValue": "Im@g3Cl@ss!f!3r",
       "metadata": {
         "description": "Password for the Virtual Machine"
       }
     },
     "osType": {
       "type": "string",
+      "defaultValue": "Linux",
       "allowedValues": [
         "Windows",
         "Linux"
@@ -56,12 +57,14 @@
     },
     "vmSize": {
       "type": "string",
+      "defaultValue": "Standard_F2s",
       "metadata": {
         "description": "This is the size of your VM"
       }
     },
     "newOrExistingVnet": {
       "allowedValues": [ "new", "existing" ],
+      "defaultValue": "existing",
       "type": "string",
       "metadata": {
         "description":  "Select if this template needs a new VNet or will reference an existing VNet"
@@ -69,19 +72,21 @@
     },
     "newOrExistingVnetName": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "VestaPhotomatch-prod-westus2-rg-vnet",
       "metadata": {
         "description": "New or Existing VNet Name"
       }
     },
     "newOrExistingSubnetName": {
       "type": "string",
+      "defaultValue": "default",
       "metadata": {
         "description": "New or Existing subnet Name"
       }
     },
     "existingVnetResourceGroupName": {
       "type": "string",
+      "defaultValue": "VestaPhotomatch-prod-westus2-rg",
       "metadata": {
         "description": "Resource group of the existing VNET"
       }
@@ -93,7 +98,7 @@
     "nicName": "[concat(parameters('customVmName'),'Nic')]",
     "publicIPAddressType": "Dynamic",
     "apiVersion": "2015-06-15",
-    "templatelink": "[concat('https://raw.githubusercontent.com/gauthamr05/azure-quickstart-templates/master/vesta-from-image/',parameters('newOrExistingVnet'),'vnet.json')]"
+    "templatelink": "[concat('https://raw.githubusercontent.com/gauthamr05/azure-quickstart-templates/vesta/vesta-from-image/',parameters('newOrExistingVnet'),'vnet.json')]"
   },
   "resources": [
     {
@@ -125,10 +130,7 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
-        }
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
       }
     },
     {
