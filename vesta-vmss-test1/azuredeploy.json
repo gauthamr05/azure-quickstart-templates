@@ -113,7 +113,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('uniqueStringArray')[copyIndex()], variables('newStorageAccountSuffix'))]",
+      "name": "[variables('uniqueStringArray')[copyIndex()]]",
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('storageApiVersion')]",
       "copy": {
