@@ -200,7 +200,7 @@
           "storageProfile": {
             "osDisk": {
               "vhdContainers": [
-                "[concat('https://', variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]"
+                "[concat('https://', toLower(variables('uniqueStringArray')[0]), '.blob.core.windows.net/', variables('vhdContainerName'))]"
               ],
               "name": "[variables('osDiskName')]",
               "caching": "ReadOnly",
