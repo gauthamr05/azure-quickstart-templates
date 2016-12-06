@@ -133,7 +133,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[variables('longlongNamingInfix')]"
+          "domainNameLabel": "[variables('longNamingInfix')]"
         }
       }
     },
