@@ -18,10 +18,10 @@ source ~/.bash_profile
 
 echo $JAVA_HOME
 
-echo "Download latest version of the Tracker Module"
-wget http://52.26.42.207/nexus/content/repositories/snapshots/ai.infrrd/hero/tracker/1.0-SNAPSHOT/tracker-1.0-SNAPSHOT.tgz 
+echo "Download latest version of the Reporter Module"
+wget http://52.26.42.207/nexus/content/repositories/snapshots/ai.infrrd/hero/reporter/1.0-SNAPSHOT/reporter-1.0-SNAPSHOT.tgz 
 
-sudo tar -xvzf tracker-1.0-SNAPSHOT.tgz
+sudo tar -xvzf reporter-1.0-SNAPSHOT.tgz
 
-echo "Starting Tracker Module"
-sudo nohup java -jar tracker-1.0-SNAPSHOT.jar &
+echo "Starting Reporter Module"
+sudo nohup java -jar reporter-1.0-SNAPSHOT.jar &
