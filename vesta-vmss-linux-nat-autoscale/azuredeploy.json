@@ -302,7 +302,7 @@
     },
     {
       "type": "Microsoft.Insights/autoscaleSettings",
-      "apiVersion": "[variables('insightsApiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "name": "autoscalewad",
       "location": "[resourceGroup().location]",
       "dependsOn": [
