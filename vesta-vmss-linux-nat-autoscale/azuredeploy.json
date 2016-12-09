@@ -11,10 +11,11 @@
     },
     "ubuntuOSVersion": {
       "type": "string",
-      "defaultValue": "14.04.4-LTS",
+      "defaultValue": "16.04.0-LTS",
       "allowedValues": [
         "15.10",
-        "14.04.4-LTS"
+        "14.04.4-LTS",
+        "16.04.0-LTS"
       ],
       "metadata": {
         "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values are: 15.10, 14.04.4-LTS."
@@ -22,7 +23,7 @@
     },
     "vmssName":{
       "type":"string",
-      "defaultValue": "FI-Classifier",
+      "defaultValue": "CS-Tracker",
       "metadata":{
         "description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
@@ -30,7 +31,7 @@
     },
     "instanceCount": {
       "type": "int",
-      "defaultValue": 8,
+      "defaultValue": 1,
       "metadata": {
         "description": "Number of VM instances (100 or less)."
       },
@@ -43,11 +44,10 @@
         "description": "Admin username on all VMs."
       }
     },
-    "adminPassword": {
-      "type": "securestring",
-      "defaultValue": "Im@g3Cl@ss!f!3r",
+    "sshKeyData": {
+      "type": "string",
       "metadata": {
-        "description": "Admin password on all VMs."
+        "description": "SSH rsa public key file as a string."
       }
     }
   },
@@ -55,7 +55,7 @@
     "storageAccountType": "Standard_LRS",
     "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
-    "newStorageAccountSuffix": "FIClassifierSa",
+    "newStorageAccountSuffix": "CSTrackerSa",
     "uniqueStringArray": [
       "[concat(variables('newStorageAccountSuffix'), '0')]"
     ],
@@ -78,6 +78,10 @@
     "nicName": "[concat(variables('longNamingInfix'), '-nic')]",
     "ipConfigName": "[concat(variables('longNamingInfix'), '-ipconfig')]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
+    "LBHealthProbe": "[concat(variables('loadBalancerName'), '-healthProbe')]",
+    "LBRuleName": "[concat(variables('loadBalancerName'), '-Rule')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/', variables('bePoolName'))]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/',variables('LBHealthProbe'))]"
     "osType": {
       "publisher": "Canonical",
       "offer": "UbuntuServer",
@@ -173,6 +177,38 @@
               "backendPort": "[variables('natBackendPort')]"
             }
           }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "[variables('LBRuleName')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('frontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('lbPoolID')]"
+              },
+              "protocol": "tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('lbProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "[variables('LBHealthProbe')]",
+            "properties": {
+              "protocol": "tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
         ]
       }
     },
@@ -192,7 +228,7 @@
         "capacity": "[parameters('instanceCount')]"
       },
       "properties": {
-        "overprovision": "false",
+        "overprovision": "true",
         "upgradePolicy": {
           "mode": "Manual"
         },
@@ -210,8 +246,7 @@
           },
           "osProfile": {
             "computerNamePrefix": "[variables('longNamingInfix')]",
-            "adminUsername": "[parameters('adminUsername')]",
-            "adminPassword": "[parameters('adminPassword')]"
+            "adminUsername": "[parameters('adminUsername')]"
           },
           "networkProfile": {
             "networkInterfaceConfigurations": [
@@ -242,8 +277,91 @@
                 }
               }
             ]
+          },
+          "extensionProfile": {
+            "extensions": [
+              {
+                "name": "lapextension",
+                "properties": {
+                  "publisher": "Microsoft.Azure.Extensions",
+                  "type": "CustomScript",
+                  "typeHandlerVersion": "2.0",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/gauthamr05/azure-quickstart-templates/vesta/vesta-vmss-linux-nat-autoscale/installTracker.sh"
+                    ],
+                    "commandToExecute": "sudo sh installTracker.sh"
+                  }
+                }
+              }
+            ]
           }
         }
+      }
+    },
+    {
+      "type": "Microsoft.Insights/autoscaleSettings",
+      "apiVersion": "[variables('insightsApiVersion')]",
+      "name": "autoscalewad",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachineScaleSets/', variables('longNamingInfix'))]"
+      ],
+      "properties": {
+        "name": "autoscalewad",
+        "targetResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('longNamingInfix'))]",
+        "enabled": true,
+        "profiles": [
+          {
+            "name": "Profile1",
+            "capacity": {
+              "minimum": "1",
+              "maximum": "10",
+              "default": "1"
+            },
+            "rules": [
+              {
+                "metricTrigger": {
+                  "metricName": "Percentage CPU",
+                  "metricNamespace": "",
+                  "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('longNamingInfix'))]",
+                  "timeGrain": "PT1M",
+                  "statistic": "Average",
+                  "timeWindow": "PT5M",
+                  "timeAggregation": "Average",
+                  "operator": "GreaterThan",
+                  "threshold": 80.0
+                },
+                "scaleAction": {
+                  "direction": "Increase",
+                  "type": "ChangeCount",
+                  "value": "1",
+                  "cooldown": "PT1M"
+                }
+              },
+              {
+                "metricTrigger": {
+                  "metricName": "Percentage CPU",
+                  "metricNamespace": "",
+                  "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('namingInfix'))]",
+                  "timeGrain": "PT1M",
+                  "statistic": "Average",
+                  "timeWindow": "PT5M",
+                  "timeAggregation": "Average",
+                  "operator": "LessThan",
+                  "threshold": 40.0
+                },
+                "scaleAction": {
+                  "direction": "Decrease",
+                  "type": "ChangeCount",
+                  "value": "1",
+                  "cooldown": "PT5M"
+                }
+              }
+            ]
+          }
+        ]
       }
     }
   ]

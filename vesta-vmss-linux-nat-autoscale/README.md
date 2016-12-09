@@ -1,4 +1,4 @@
-# Simple deployment of a VM Scale Set of Linux VMs behind a load balancer with NAT rules
+### Simple deployment of a VM Scale Set of Linux VMs behind a load balancer with NAT rules and Autoscale the same ###
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fgauthamr05%2Fazure-quickstart-templates%2Fvesta%2Fvesta-vmss-linux-nat-autoscale%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
@@ -17,4 +17,7 @@ PARAMETER RESTRICTIONS
 vmssName must be 3-61 characters in length. It should also be globally unique across all of Azure. If it isn't globally unique, it is possible that this template will still deploy properly, but we don't recommend relying on this pseudo-probabilistic behavior.
 instanceCount must be 100 or less.
 
-Note : Health Probe and Load Balancing rules have to be added through the portal after deployment. As this is not included in the template.
+The Autoscale rules are configured as follows
+- sample for CPU (\\Processor\\PercentProcessorTime) in each VM every 1 Minute
+- if the Percent Processor Time is greater than 50% for 5 Minutes, then the scale out action (add more VM instances, one at a time) is triggered
+- once the scale out action is completed, the cool down period is 1 Minute
