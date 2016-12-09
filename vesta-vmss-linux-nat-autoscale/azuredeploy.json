@@ -82,6 +82,7 @@
     "LBRuleName": "[concat(variables('loadBalancerName'), '-Rule')]",
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/', variables('bePoolName'))]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/',variables('LBHealthProbe'))]",
+    "sshKeyPath": "[concat('/home/ubuntu/.ssh/authorized_keys')]",
     "osType": {
       "publisher": "Canonical",
       "offer": "UbuntuServer",
@@ -247,7 +248,17 @@
           "osProfile": {
             "computerNamePrefix": "[variables('longNamingInfix')]",
             "adminUsername": "[parameters('adminUsername')]",
-            "sshKeyData": "[parameters('sshKeyData')]"
+            "linuxConfiguration": {
+              "disablePasswordAuthentication": "true",
+              "ssh": {
+                "publicKeys": [
+                  {
+                     "path": "[variables('sshKeyPath')]",
+                     "keyData": "[parameters('sshKeyData')]"
+                  }
+                ]
+              }
+            }
           },
           "networkProfile": {
             "networkInterfaceConfigurations": [
