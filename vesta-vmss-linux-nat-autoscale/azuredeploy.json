@@ -246,7 +246,8 @@
           },
           "osProfile": {
             "computerNamePrefix": "[variables('longNamingInfix')]",
-            "adminUsername": "[parameters('adminUsername')]"
+            "adminUsername": "[parameters('adminUsername')]",
+            "sshKeyData": "[parameters('sshKeyData')]"
           },
           "networkProfile": {
             "networkInterfaceConfigurations": [
