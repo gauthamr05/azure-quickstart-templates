@@ -23,7 +23,7 @@
     },
     "vmssName":{
       "type":"string",
-      "defaultValue": "CS-Customisation",
+      "defaultValue": "CS-Tracker",
       "metadata":{
         "description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       },
@@ -55,7 +55,7 @@
     "storageAccountType": "Standard_LRS",
     "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('vmssName'))]",
-    "newStorageAccountSuffix": "CSCustomisationSa",
+    "newStorageAccountSuffix": "CSTrackerSa",
     "uniqueStringArray": [
       "[concat(variables('newStorageAccountSuffix'), '0')]"
     ],
@@ -192,8 +192,8 @@
                 "id": "[variables('lbPoolID')]"
               },
               "protocol": "tcp",
-              "frontendPort": 80,
-              "backendPort": 80,
+              "frontendPort": 8081,
+              "backendPort": 8081,
               "enableFloatingIP": false,
               "idleTimeoutInMinutes": 5,
               "probe": {
@@ -207,7 +207,7 @@
             "name": "[variables('LBHealthProbe')]",
             "properties": {
               "protocol": "tcp",
-              "port": 80,
+              "port": 8081,
               "intervalInSeconds": 5,
               "numberOfProbes": 2
             }
@@ -303,9 +303,9 @@
                   "autoUpgradeMinorVersion": true,
                   "settings": {
                     "fileUris": [
-                      "https://raw.githubusercontent.com/gauthamr05/azure-quickstart-templates/vesta/vesta-vmss-linux-nat-autoscale/installCustomisation.sh"
+                      "https://raw.githubusercontent.com/gauthamr05/azure-quickstart-templates/vesta/vesta-vmss-linux-nat-autoscale/installTracker.sh"
                     ],
-                    "commandToExecute": "sudo sh installCustomisation.sh"
+                    "commandToExecute": "sudo sh installTracker.sh"
                   }
                 }
               }
